@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "ExamAtlas",
+  "short_name": "ExamAtlas",
+  "description": "Practice questions, official exam sources and job boards.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07060d",
+  "theme_color": "#07060d",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

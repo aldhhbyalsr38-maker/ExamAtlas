@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07060d">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+
+<title>ExamAtlas</title>
+<meta name="description" content="Practice questions with solutions, official exam sources and job boards, in 30 languages.">
+<style>
+:root{
+  --bg:#07060d; --card:rgba(255,255,255,.045); --card2:rgba(255,255,255,.07); --line:rgba(255,255,255,.1);
+  --text:#f3efe6; --mute:#a59fb8; --gold:#e8c26a; --gold2:#b8902f; --vio:#8b5cf6; --ok:#5ee0a0;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;color:var(--text);background:var(--bg);
+  font-family:"Noto Sans Arabic","Noto Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  line-height:1.65;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.28),transparent 60%),
+    radial-gradient(700px 500px at 0% 20%,rgba(232,194,106,.12),transparent 60%),
+    radial-gradient(800px 600px at 50% 120%,rgba(91,33,182,.25),transparent 60%);
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px 80px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;text-decoration:none;color:var(--text)}
+.logo{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1305;font-weight:900}
+select{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font:inherit;font-size:.92rem;max-width:160px;cursor:pointer}
+select option{background:#14102a;color:#fff}
+
+nav.tabs{
+  position:sticky;top:0;z-index:5;display:flex;gap:6px;overflow-x:auto;padding:10px 0;margin-bottom:6px;
+  background:linear-gradient(var(--bg) 70%,transparent);scrollbar-width:none
+}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs a{
+  flex:none;text-decoration:none;color:var(--mute);padding:10px 18px;border-radius:14px;font-weight:700;font-size:.95rem;
+  border:1px solid transparent;transition:.2s;white-space:nowrap
+}
+nav.tabs a:hover{color:var(--text)}
+nav.tabs a.on{color:#1a1305;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+
+.hero{text-align:center;padding:30px 0 18px}
+.hero h1{font-size:clamp(1.9rem,6vw,3.2rem);line-height:1.2;font-weight:900;
+  background:linear-gradient(120deg,#fff 10%,var(--gold) 50%,#c9b3ff 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);margin:12px auto 0;font-size:clamp(.98rem,2.6vw,1.12rem);max-width:640px}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:26px}
+.fcard{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px 20px;transition:.2s;backdrop-filter:blur(8px)}
+.fcard:hover{transform:translateY(-4px);border-color:var(--gold);background:rgba(232,194,106,.06)}
+.fcard .ic{font-size:2.2rem}
+.fcard b{display:block;font-size:1.2rem;margin-top:8px}
+.fcard span{display:block;color:var(--mute);font-size:.93rem;margin-top:4px}
+
+h2.sec{font-size:1.2rem;margin:26px 0 14px;display:flex;align-items:center;gap:10px}
+h2.sec i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:.85rem;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1305;font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:10px 18px;font:inherit;font-weight:700;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1305;border-color:transparent}
+.pill{min-width:46px;padding:9px 12px;text-align:center}
+.search{width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;margin-bottom:14px;outline:none}
+.search:focus{border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 10px;text-align:center;cursor:pointer;color:inherit;font:inherit;transition:.2s}
+.card:hover,.card:focus-visible{transform:translateY(-3px);border-color:var(--gold);background:rgba(232,194,106,.07);outline:none}
+.card.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.card .f{font-size:2.1rem;line-height:1.1}
+.card .nm{margin-top:6px;font-weight:700;font-size:.92rem}
+
+.qbox{display:grid;gap:12px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.q .top{display:flex;gap:12px;align-items:flex-start}
+.q .no{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--card2);color:var(--gold);font-weight:800;font-size:.9rem}
+.q .tx{font-size:1.05rem;font-weight:600;flex:1}
+.q .tx.en{direction:ltr;text-align:left}
+.q.star{border-color:rgba(232,194,106,.45);background:linear-gradient(160deg,rgba(232,194,106,.08),var(--card))}
+.show{margin-top:12px;background:none;border:1px dashed var(--line);color:var(--gold);border-radius:12px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer}
+.show:hover{border-color:var(--gold)}
+.ans{margin-top:12px;border-radius:14px;padding:12px 14px;background:rgba(94,224,160,.07);border:1px solid rgba(94,224,160,.25)}
+.ans b{color:var(--ok)}
+.ans .st{color:var(--mute);margin-top:4px;font-size:.96rem}
+.ans .en{direction:ltr;text-align:left}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.badge{display:inline-block;font-size:.72rem;font-weight:800;color:#1a1305;background:linear-gradient(135deg,var(--gold),var(--gold2));padding:2px 9px;border-radius:99px;margin-inline-start:8px;vertical-align:middle}
+
+.list{display:grid;gap:12px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.item b{display:block;font-size:1.02rem}
+.item small{color:var(--mute);display:block;margin-top:2px}
+.go{flex:none;text-decoration:none;color:#1a1305;font-weight:800;font-size:.9rem;background:linear-gradient(135deg,var(--gold),var(--gold2));padding:10px 16px;border-radius:12px;white-space:nowrap}
+.go:hover{filter:brightness(1.1)}
+.sub{color:var(--mute);margin:-6px 0 14px}
+.note{margin-top:26px;font-size:.84rem;color:var(--mute);border:1px dashed var(--line);border-radius:14px;padding:12px 14px}
+.empty{color:var(--mute);padding:22px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+.ad-slot{margin:30px 0 0}
+footer{margin-top:46px;text-align:center;color:var(--mute);font-size:.82rem}
+[hidden]{display:none!important}
+@media (max-width:520px){.item{flex-direction:column;align-items:stretch}.go{text-align:center}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#/"><span class="logo">E</span><span>ExamAtlas</span></a>
+    <select id="lang" aria-label="Language"></select>
+  </header>
+  <nav class="tabs" id="nav"></nav>
+  <main id="app"></main>
+  <div class="note" id="t-note"></div>
+  <!-- ADS: after launch + 1 month, place the AdSense unit inside this div -->
+  <div class="ad-slot" id="ad-slot"></div>
+  <footer>ExamAtlas · <span id="t-foot"></span></footer>
+</div>
+<script>
+/* ================== DATA (edit monthly) ================== */
+const UPDATED = "2026-11";
+
+/* ---- Question helpers ----
+   Math items are bilingual [ar,en]. Arabic items are Arabic only. English items are English only,
+   with bilingual explanations. e = JS expression used by the test script to verify numeric answers. */
+const m = (qa,qe,a,sa,se,e,imp)=>({q:[qa,qe],a,s:[sa,se],e,imp:!!imp});
+const ar = (q,a,s,imp)=>({q,a,s,imp:!!imp,lang:"ar"});
+const en = (q,a,sa,se,imp)=>({q,a,s:[sa,se],imp:!!imp,lang:"en"});
+
+const QUESTIONS = {
+math:{
+1:[m("احسب: 5 + 3","Calculate: 5 + 3","8","نجمع 5 و3 فيصبح الناتج 8.","Add 5 and 3 to get 8.","5+3",1),
+   m("احسب: 10 − 4","Calculate: 10 − 4","6","نطرح 4 من 10 فيبقى 6.","Subtract 4 from 10 to get 6.","10-4",1),
+   m("ما العدد الذي يأتي بعد 19؟","What number comes after 19?","20","العدد التالي لـ19 هو 20.","The next number after 19 is 20.","19+1"),
+   m("احسب: 2 + 2 + 2","Calculate: 2 + 2 + 2","6","2 + 2 = 4 ثم 4 + 2 = 6.","2 + 2 = 4, then 4 + 2 = 6.","2+2+2")],
+2:[m("احسب: 23 + 19","Calculate: 23 + 19","42","20 + 10 = 30 و3 + 9 = 12، فالمجموع 42.","20 + 10 = 30 and 3 + 9 = 12, so the total is 42.","23+19",1),
+   m("احسب: 50 − 27","Calculate: 50 − 27","23","50 − 27 = 23.","50 − 27 = 23.","50-27",1),
+   m("احسب: 4 × 3","Calculate: 4 × 3","12","4 × 3 تعني 4 + 4 + 4 = 12.","4 × 3 means 4 + 4 + 4 = 12.","4*3"),
+   m("احسب: 18 ÷ 2","Calculate: 18 ÷ 2","9","نقسم 18 إلى مجموعتين متساويتين، في كل منهما 9.","Split 18 into 2 equal groups of 9.","18/2")],
+3:[m("احسب: 6 × 7","Calculate: 6 × 7","42","جدول الضرب: 6 × 7 = 42.","Times table: 6 × 7 = 42.","6*7",1),
+   m("احسب: 56 ÷ 8","Calculate: 56 ÷ 8","7","لأن 8 × 7 = 56.","Because 8 × 7 = 56.","56/8",1),
+   m("احسب: 345 + 278","Calculate: 345 + 278","623","5+8=13 (نكتب 3 ونحمل 1)، 4+7+1=12 (نكتب 2 ونحمل 1)، 3+2+1=6، فالناتج 623.","5+8=13 (write 3, carry 1), 4+7+1=12 (write 2, carry 1), 3+2+1=6, so 623.","345+278"),
+   m("احسب: 1000 − 456","Calculate: 1000 − 456","544","1000 − 456 = 544.","1000 − 456 = 544.","1000-456")],
+4:[m("احسب: 12 × 15","Calculate: 12 × 15","180","12 × 10 = 120 و12 × 5 = 60، والمجموع 180.","12 × 10 = 120 and 12 × 5 = 60, total 180.","12*15",1),
+   m("احسب: 144 ÷ 12","Calculate: 144 ÷ 12","12","لأن 12 × 12 = 144.","Because 12 × 12 = 144.","144/12"),
+   m("مستطيل طوله 8 سم وعرضه 5 سم. ما محيطه؟","A rectangle is 8 cm long and 5 cm wide. What is its perimeter?","26","المحيط = 2 × (8 + 5) = 26 سم.","Perimeter = 2 × (8 + 5) = 26 cm.","2*(8+5)",1),
+   m("ما ثلاثة أرباع العدد 20؟","What is three quarters of 20?","15","20 ÷ 4 = 5 ثم 5 × 3 = 15.","20 ÷ 4 = 5, then 5 × 3 = 15.","20/4*3")],
+5:[m("احسب: 2.5 + 3.75","Calculate: 2.5 + 3.75","6.25","نكتب 2.50 + 3.75 = 6.25.","Write 2.50 + 3.75 = 6.25.","2.5+3.75",1),
+   m("احسب: ½ + ⅓","Calculate: ½ + ⅓","5/6","نوحّد المقامات: 3/6 + 2/6 = 5/6.","Common denominator: 3/6 + 2/6 = 5/6.","1/2+1/3",1),
+   m("مثلث قاعدته 10 سم وارتفاعه 6 سم. ما مساحته؟","A triangle has base 10 cm and height 6 cm. What is its area?","30","المساحة = ½ × 10 × 6 = 30 سم².","Area = ½ × 10 × 6 = 30 cm².","0.5*10*6"),
+   m("ما 15% من العدد 200؟","What is 15% of 200?","30","200 × 15 ÷ 100 = 30.","200 × 15 ÷ 100 = 30.","200*15/100")],
+6:[m("احسب: ¾ ÷ ⅜","Calculate: ¾ ÷ ⅜","2","نقلب الكسر الثاني ونضرب: ¾ × 8/3 = 2.","Flip the second fraction and multiply: ¾ × 8/3 = 2.","(3/4)/(3/8)",1),
+   m("بسّط النسبة 12 : 18","Simplify the ratio 12 : 18","2:3","نقسم الطرفين على 6 فنحصل على 2 : 3.","Divide both by 6 to get 2 : 3.",null,1),
+   m("حل المعادلة: س + 9 = 25","Solve: x + 9 = 25","16","س = 25 − 9 = 16.","x = 25 − 9 = 16.","25-9"),
+   m("ما حجم مكعب طول حرفه 4 سم؟","What is the volume of a cube with edge 4 cm?","64","الحجم = 4 × 4 × 4 = 64 سم³.","Volume = 4 × 4 × 4 = 64 cm³.","4**3")],
+7:[m("احسب: −7 + 12","Calculate: −7 + 12","5","12 − 7 = 5 لأن الأكبر موجب.","12 − 7 = 5 since the larger number is positive.","-7+12",1),
+   m("حل المعادلة: 3س − 5 = 16","Solve: 3x − 5 = 16","7","3س = 21 فـ س = 7.","3x = 21, so x = 7.","(16+5)/3",1),
+   m("احسب: 2⁵","Calculate: 2⁵","32","2×2×2×2×2 = 32.","2×2×2×2×2 = 32.","2**5"),
+   m("مساحة دائرة نصف قطرها 7 سم (π = 22/7)؟","Area of a circle with radius 7 cm (π = 22/7)?","154","المساحة = π × نق² = 22/7 × 49 = 154 سم².","Area = π × r² = 22/7 × 49 = 154 cm².","22/7*7*7")],
+8:[m("حل المعادلة: 2(س − 3) = 14","Solve: 2(x − 3) = 14","10","س − 3 = 7 فـ س = 10.","x − 3 = 7, so x = 10.","14/2+3",1),
+   m("مثلث قائم أضلاعه القائمة 3 و4. ما طول الوتر؟","A right triangle has legs 3 and 4. What is the hypotenuse?","5","الوتر = √(9 + 16) = √25 = 5.","Hypotenuse = √(9 + 16) = √25 = 5.","Math.sqrt(3*3+4*4)",1),
+   m("احسب: √144","Calculate: √144","12","12 × 12 = 144.","12 × 12 = 144.","Math.sqrt(144)"),
+   m("ميل المستقيم المار بالنقطتين (1,2) و(3,8)؟","Slope of the line through (1,2) and (3,8)?","3","الميل = (8 − 2) ÷ (3 − 1) = 3.","Slope = (8 − 2) ÷ (3 − 1) = 3.","(8-2)/(3-1)")],
+9:[m("حلّل: س² − 9","Factor: x² − 9","(س−3)(س+3)","فرق مربعين: س² − 3² = (س−3)(س+3).","Difference of squares: x² − 3² = (x−3)(x+3).",null,1),
+   m("حل المعادلة: س² − 5س + 6 = 0","Solve: x² − 5x + 6 = 0","2 أو 3","(س−2)(س−3) = 0 فـ س = 2 أو س = 3.","(x−2)(x−3) = 0, so x = 2 or x = 3.",null,1),
+   m("نقطة المنتصف بين (2,4) و(8,10)؟","Midpoint of (2,4) and (8,10)?","(5,7)","((2+8)/2 , (4+10)/2) = (5,7).","((2+8)/2 , (4+10)/2) = (5,7).",null),
+   m("فُكّ: (س + 3)²","Expand: (x + 3)²","س² + 6س + 9","(أ+ب)² = أ² + 2أب + ب².","(a+b)² = a² + 2ab + b².",null)],
+10:[m("حل المعادلة: 2س² − 8 = 0","Solve: 2x² − 8 = 0","س = 2 أو س = −2","س² = 4 فـ س = ±2.","x² = 4, so x = ±2.",null,1),
+    m("ما قيمة جا 30°؟","What is sin 30°?","1/2","من الزوايا الخاصة: جا 30° = 1/2.","Special angle: sin 30° = 1/2.","0.5",1),
+    m("المتتالية الحسابية 3، 7، 11، … ما حدّها العاشر؟","Arithmetic sequence 3, 7, 11, … What is the 10th term?","39","الحد = 3 + 9 × 4 = 39.","Term = 3 + 9 × 4 = 39.","3+9*4"),
+    m("احسب: لو₁₀ 1000","Calculate: log₁₀ 1000","3","لأن 10³ = 1000.","Because 10³ = 1000.","Math.log10(1000)")],
+11:[m("اشتق: س³","Differentiate: x³","3س²","قاعدة القوة: ن س^(ن−1) فتصبح 3س².","Power rule: n·x^(n−1) gives 3x².",null,1),
+    m("إذا كان جاθ = 3/5 وθ حادة، فما جتاθ؟","If sin θ = 3/5 and θ is acute, what is cos θ?","4/5","جتا²θ = 1 − 9/25 = 16/25 فـ جتاθ = 4/5.","cos²θ = 1 − 9/25 = 16/25, so cos θ = 4/5.","Math.sqrt(1-(3/5)**2)",1),
+    m("مجموع أول 5 حدود من المتتالية الهندسية 2، 4، 8، …","Sum of the first 5 terms of the geometric sequence 2, 4, 8, …","62","2 + 4 + 8 + 16 + 32 = 62.","2 + 4 + 8 + 16 + 32 = 62.","2*(2**5-1)"),
+    m("حل المعادلة: 2^س = 32","Solve: 2^x = 32","5","لأن 2⁵ = 32.","Because 2⁵ = 32.","Math.log2(32)")],
+12:[m("إذا كان ق(س) = س² + 3س فما ق′(2)؟","If f(x) = x² + 3x, what is f′(2)?","7","ق′(س) = 2س + 3 فـ ق′(2) = 7.","f′(x) = 2x + 3, so f′(2) = 7.","2*2+3",1),
+    m("احسب: ∫ من 0 إلى 2 للمقدار 3س² دس","Calculate: ∫ from 0 to 2 of 3x² dx","8","التكامل = [س³] من 0 إلى 2 = 8.","The integral = [x³] from 0 to 2 = 8.","2**3",1),
+    m("احسب: نهـا (جا س ÷ س) عندما س → 0","Calculate: lim (sin x ÷ x) as x → 0","1","نهاية معروفة تساوي 1.","A standard limit equal to 1.","1"),
+    m("احسب: نهـا (س² − 4) ÷ (س − 2) عندما س → 2","Calculate: lim (x² − 4) ÷ (x − 2) as x → 2","4","(س−2)(س+2) ÷ (س−2) = س + 2 → 4.","(x−2)(x+2) ÷ (x−2) = x + 2 → 4.","2+2")]
+},
+arabic:{
+1:[ar("ما الحرف الأول في كلمة (باب)؟","ب","كلمة (باب) تبدأ بحرف الباء.",1),
+   ar("ما ضد كلمة (كبير)؟","صغير","ضد الكبير هو الصغير.",1),
+   ar("ما جمع كلمة (كتاب)؟","كتب","نقول: كتاب ← كتب.")],
+2:[ar("ما مفرد كلمة (أقلام)؟","قلم","مفرد أقلام هو قلم.",1),
+   ar("ما ضد كلمة (طويل)؟","قصير","ضد الطويل هو القصير.",1),
+   ar("اختر الكلمة المؤنثة: (ولد – بنت)","بنت","كلمة بنت تدل على مؤنث.")],
+3:[ar("اجعل الجملة مثنى: (ذهب الولدُ إلى المدرسة)","ذهب الولدان إلى المدرسة","نضيف الألف والنون إلى الاسم: ولد ← ولدان.",1),
+   ar("استخرج الفعل من الجملة: (كتب الطالبُ الدرسَ)","كتب","الفعل هو الكلمة التي تدل على حدث في زمن، وهنا (كتب).",1),
+   ar("ما جمع كلمة (شجرة)؟","أشجار","جمع تكسير: شجرة ← أشجار.")],
+4:[ar("ما الفاعل في الجملة: (قرأ محمدٌ الكتابَ)؟","محمد","الفاعل هو من قام بالفعل، ومحمد هو القارئ.",1),
+   ar("ما المفعول به في: (شرب الولدُ الماءَ)؟","الماء","المفعول به هو من وقع عليه الفعل.",1),
+   ar("الفعل (يكتبُ) ماضٍ أم مضارع؟","مضارع","يبدأ بحرف المضارعة (الياء) ويدل على الحال أو الاستقبال.")],
+5:[ar("ما علامة رفع الفاعل المفرد؟","الضمة","الفاعل مرفوع وعلامة رفعه الضمة إذا كان مفرداً.",1),
+   ar("اجعل الفعل (يكتبُ) فعل أمر.","اكتبْ","نحذف حرف المضارعة ونبني على السكون فنقول: اكتبْ.",1),
+   ar("ما ضد كلمة (كَرَم)؟","بخل","الكرم ضده البخل.")],
+6:[ar("أعرب كلمة (الطالبُ) في: جاء الطالبُ.","فاعل مرفوع وعلامة رفعه الضمة الظاهرة","الطالب قام بفعل المجيء فهو فاعل.",1),
+   ar("ما جمع المذكر السالم من كلمة (معلّم)؟","معلّمون","نضيف الواو والنون في حالة الرفع.",1),
+   ar("ما المبتدأ في: (العلمُ نورٌ)؟","العلم","المبتدأ اسم مرفوع في أول الجملة الاسمية.")],
+7:[ar("ما علامة نصب جمع المؤنث السالم؟","الكسرة","ينصب جمع المؤنث السالم بالكسرة نيابة عن الفتحة.",1),
+   ar("في الجملة: (إنَّ العلمَ نورٌ) ما اسم إنَّ؟","العلم","اسم إنَّ منصوب، وهو (العلمَ).",1),
+   ar("ما مثنى كلمة (معلّمة)؟","معلّمتان","نضيف الألف والنون للرفع: معلمتان.")],
+8:[ar("ما نوع (كان) في: كان الجوُّ جميلاً؟","فعل ماضٍ ناقص","كان من الأفعال الناقصة وترفع الاسم وتنصب الخبر.",1),
+   ar("أعرب (جميلاً) في: كان الجوُّ جميلاً.","خبر كان منصوب وعلامة نصبه الفتحة الظاهرة","خبر كان يكون منصوباً.",1),
+   ar("استخرج الاسم الموصول: (جاء الذي نجحَ)","الذي","الاسم الموصول يحتاج إلى جملة صلة بعده.")],
+9:[ar("أكمل بالأسماء الخمسة: (جاء ... محمد) بكلمة (أب).","جاء أبو محمد","ترفع الأسماء الخمسة بالواو.",1),
+   ar("أعرب (أخاك) في: رأيت أخاك.","مفعول به منصوب وعلامة نصبه الألف لأنه من الأسماء الخمسة","تنصب الأسماء الخمسة بالألف.",1),
+   ar("ما مصدر الفعل (استخرج)؟","استخراج","نكسر ما قبل الآخر ونزيد ألفاً قبل الآخر.")],
+10:[ar("ما علامة جزم الفعل المضارع الصحيح الآخر؟","السكون","يجزم الفعل المضارع الصحيح بالسكون.",1),
+    ar("ما أداة الجزم في: (لم يكتبْ الطالبُ)؟","لم","لم حرف جزم ونفي وقلب.",1),
+    ar("ما المفعول لأجله؟","مصدر منصوب يبين سبب حدوث الفعل","مثال: وقفتُ احتراماً للمعلم.")],
+11:[ar("ما الحال؟","وصف منصوب يبين هيئة صاحبه وقت وقوع الفعل","مثال: جاء الطالبُ مسرعاً.",1),
+    ar("أعرب (مسرعاً) في: جاء الطالبُ مسرعاً.","حال منصوبة وعلامة نصبها الفتحة الظاهرة","لأنها تبين هيئة الطالب عند المجيء.",1),
+    ar("ما جمع التكسير لكلمة (قلب)؟","قلوب","تتغير بنية المفرد فهو جمع تكسير.")],
+12:[ar("ما التمييز؟","اسم نكرة منصوب يزيل الإبهام عما قبله","مثال: اشتريتُ عشرين كتاباً.",1),
+    ar("ما المقصود بالاستثناء؟","إخراج ما بعد أداة الاستثناء من حكم ما قبلها","مثال: حضر القوم إلا زيداً.",1),
+    ar("أعرب (الطلابَ) في: حضر القومُ إلا الطلابَ.","مستثنى منصوب وعلامة نصبه الفتحة الظاهرة","لأن الجملة تامة مثبتة.")]
+},
+english:{
+1:[en("Choose: This is ___ apple. (a / an)","an","نستخدم (an) قبل الأصوات المتحركة مثل apple.","Use 'an' before a vowel sound such as 'apple'.",1),
+   en("What is the plural of 'cat'?","cats","نضيف s للجمع.","Add -s to make the plural.",1),
+   en("What is the opposite of 'big'?","small","big ضدها small.","The opposite of 'big' is 'small'.")],
+2:[en("Choose: She ___ a student. (is / are)","is","مع she نستخدم is.","Use 'is' with 'she'.",1),
+   en("What is the plural of 'box'?","boxes","ما ينتهي بـ x نضيف له es.","Words ending in x take -es.",1),
+   en("What is the past of 'go'?","went","فعل شاذ: go ← went.","Irregular verb: go → went.")],
+3:[en("Choose: They ___ playing football. (is / are)","are","مع they نستخدم are.","Use 'are' with 'they'.",1),
+   en("Choose: I ___ breakfast every day. (eat / eats)","eat","مع I نستخدم الفعل بدون s.","With 'I' use the base verb, no -s.",1),
+   en("What is the opposite of 'hot'?","cold","hot ضدها cold.","The opposite of 'hot' is 'cold'.")],
+4:[en("Choose: He ___ to school every day. (go / goes)","goes","مع he نضيف es للفعل go.","With 'he' add -es: goes.",1),
+   en("What is the plural of 'child'?","children","جمع شاذ.","Irregular plural.",1),
+   en("What is the past of 'play'?","played","نضيف ed للفعل المنتظم.","Add -ed to regular verbs.")],
+5:[en("What is the past of 'buy'?","bought","فعل شاذ: buy ← bought.","Irregular verb: buy → bought.",1),
+   en("Choose: There ___ two books on the table. (is / are)","are","two books جمع فنستخدم are.","'two books' is plural, so use 'are'.",1),
+   en("What is the comparative of 'tall'?","taller","نضيف er للصفة القصيرة.","Add -er to short adjectives.")],
+6:[en("Choose: I have lived here ___ 2010. (for / since)","since","since مع نقطة زمنية محددة.","Use 'since' with a point in time.",1),
+   en("What is the superlative of 'good'?","best","good ← better ← best.","good → better → best.",1),
+   en("Choose: She is ___ than her sister. (taller / tallest)","taller","المقارنة بين اثنين تستخدم taller.","Comparing two uses 'taller'.")],
+7:[en("Choose: If it rains, we ___ stay home. (will / would)","will","الشرط الأول: if + مضارع بسيط، will + فعل.","First conditional: if + present, will + verb.",1),
+   en("Make it passive: Sam ate the cake.","The cake was eaten by Sam.","المبني للمجهول: was + التصريف الثالث.","Passive: was + past participle.",1),
+   en("What is the past participle of 'write'?","written","write ← wrote ← written.","write → wrote → written.")],
+8:[en("Choose: She asked me where I ___. (live / lived)","lived","في الكلام المنقول نرجع زمناً للخلف.","In reported speech, shift the tense back.",1),
+   en("Which is a noun: quickly, happiness, run?","happiness","happiness اسم معنى.","'happiness' is an abstract noun.",1),
+   en("Choose: If I were you, I ___ study harder. (will / would)","would","الشرط الثاني: if + past، would + فعل.","Second conditional: if + past, would + verb.")],
+9:[en("Choose: By the time we arrived, the movie ___. (started / had started)","had started","حدث سابق لحدث ماضٍ آخر ← الماضي التام.","An earlier past event uses the past perfect.",1),
+   en("Choose: Neither of the boys ___ here. (is / are)","is","neither مع فعل مفرد.","'Neither' takes a singular verb.",1),
+   en("Choose: How ___ students are in your class? (much / many)","many","students يُعدّ فنستخدم many.","'students' is countable, so use 'many'.")],
+10:[en("Choose: He suggested ___ early. (leave / leaving)","leaving","بعد suggest نستخدم اسم الفعل ing.","After 'suggest' use the -ing form.",1),
+    en("Choose: The book, ___ I bought yesterday, is great. (who / which)","which","which لغير العاقل.","'which' is used for things.",1),
+    en("Choose: She is interested ___ art. (in / on)","in","interested in تعبير ثابت.","'interested in' is a fixed phrase.")],
+11:[en("Choose: Had I known, I ___ come. (would have / will have)","would have","الشرط الثالث: had + التصريف الثالث، would have + التصريف الثالث.","Third conditional: had + p.p., would have + p.p.",1),
+    en("Choose: Despite ___ tired, he finished. (is / being)","being","بعد despite نستخدم ing.","After 'despite' use the -ing form.",1),
+    en("Choose: The more you practise, ___ you become. (the better / better)","the better","تركيب: the more … the better.","Structure: the more … the better.")],
+12:[en("Choose: I wish I ___ more time. (have / had)","had","wish للحاضر + ماضٍ بسيط.","'wish' about the present takes the past simple.",1),
+    en("Choose: Hardly had he arrived ___ it started to rain. (when / than)","when","hardly … when تركيب ثابت.","'hardly … when' is a fixed pattern.",1),
+    en("Choose: She denied ___ the vase. (to break / breaking)","breaking","بعد deny نستخدم ing.","After 'deny' use the -ing form.")]
+}
+};
+
+/* Official past papers by year can be added here ONLY when you have the right to publish them.
+   Shape: PAPERS.math[9] = [{year:2025, title:"...", items:[ar(...), m(...), en(...)]}, ...] */
+const PAPERS = {};
+
+/* ---- Official sources (ministry sites). chk:true = from general knowledge, not fetched: verify before launch ---- */
+const COUNTRIES = {
+  PS:{f:"🇵🇸",res:[{n:"وزارة التربية والتعليم العالي",u:"https://www.moehe.gov.ps/",chk:true}]},
+  JO:{f:"🇯🇴",res:[{n:"وزارة التربية والتعليم",u:"https://moe.gov.jo/",chk:true}]},
+  SA:{f:"🇸🇦",res:[{n:"الاختبارات المركزية",u:"https://www.moe.gov.sa/en/knowledgecenter/eservices/Pages/Centraltests.aspx"},{n:"وزارة التعليم",u:"https://www.moe.gov.sa/",chk:true}]},
+  EG:{f:"🇪🇬",res:[{n:"وزارة التربية والتعليم",u:"https://moe.gov.eg/",chk:true}]},
+  SY:{f:"🇸🇾",res:[{n:"وزارة التربية",u:"https://moed.gov.sy/",chk:true}]},
+  LB:{f:"🇱🇧",res:[{n:"وزارة التربية والتعليم العالي",u:"https://www.mehe.gov.lb/",chk:true}]},
+  IQ:{f:"🇮🇶",res:[{n:"وزارة التربية",u:"https://moedu.gov.iq/",chk:true}]},
+  AE:{f:"🇦🇪",res:[{n:"Ministry of Education",u:"https://www.moe.gov.ae/",chk:true}]},
+  QA:{f:"🇶🇦",res:[{n:"Ministry of Education",u:"https://www.edu.gov.qa/",chk:true}]},
+  KW:{f:"🇰🇼",res:[{n:"Ministry of Education",u:"https://www.moe.edu.kw/",chk:true}]},
+  BH:{f:"🇧🇭",res:[{n:"Ministry of Education",u:"https://www.moe.gov.bh/",chk:true}]},
+  OM:{f:"🇴🇲",res:[{n:"Ministry of Education",u:"https://www.moe.gov.om/",chk:true}]},
+  MA:{f:"🇲🇦",res:[{n:"Ministère de l'Éducation nationale",u:"https://www.men.gov.ma/",chk:true}]},
+  DZ:{f:"🇩🇿",res:[{n:"وزارة التربية الوطنية",u:"https://www.education.gov.dz/",chk:true}]},
+  TN:{f:"🇹🇳",res:[{n:"وزارة التربية",u:"https://www.education.gov.tn/",chk:true}]},
+  TR:{f:"🇹🇷",res:[{n:"Milli Eğitim Bakanlığı",u:"https://www.meb.gov.tr/",chk:true}]},
+  GB:{f:"🇬🇧",res:[{n:"AQA — GCSE / A-Level past papers",u:"https://www.aqa.org.uk/find-past-papers-and-mark-schemes"},{n:"Pearson Edexcel",u:"https://qualifications.pearson.com/",chk:true},{n:"OCR",u:"https://www.ocr.org.uk/",chk:true}]},
+  FR:{f:"🇫🇷",res:[{n:"Baccalauréat — annales (Eduscol)",u:"https://eduscol.education.fr/3067/annales-des-epreuves-du-baccalaureat"}]},
+  DE:{f:"🇩🇪",res:[{n:"Kultusministerkonferenz",u:"https://www.kmk.org/",chk:true}]},
+  IT:{f:"🇮🇹",res:[{n:"Ministero dell'Istruzione e del Merito",u:"https://www.mim.gov.it/",chk:true}]},
+  RU:{f:"🇷🇺",res:[{n:"Минпросвещения",u:"https://edu.gov.ru/",chk:true}]},
+  US:{f:"🇺🇸",res:[{n:"U.S. Department of Education",u:"https://www.ed.gov/",chk:true},{n:"College Board — AP",u:"https://apstudents.collegeboard.org/",chk:true}]},
+  IN:{f:"🇮🇳",res:[{n:"CBSE Academic",u:"https://cbseacademic.nic.in/"},{n:"CBSE",u:"https://www.cbse.gov.in/"}]},
+  PK:{f:"🇵🇰",res:[{n:"Ministry of Federal Education",u:"https://www.mofept.gov.pk/",chk:true}]},
+  ID:{f:"🇮🇩",res:[{n:"Kemendikbud",u:"https://www.kemdikbud.go.id/",chk:true}]},
+  MY:{f:"🇲🇾",res:[{n:"Kementerian Pendidikan",u:"https://www.moe.gov.my/",chk:true}]},
+  JP:{f:"🇯🇵",res:[{n:"文部科学省 (MEXT)",u:"https://www.mext.go.jp/",chk:true}]},
+  NG:{f:"🇳🇬",res:[{n:"Federal Ministry of Education",u:"https://education.gov.ng/",chk:true}]},
+  ZA:{f:"🇿🇦",res:[{n:"Department of Basic Education",u:"https://www.education.gov.za/",chk:true}]}
+};
+
+/* ---- Job boards. All from general knowledge, not fetched: verify before launch ---- */
+const JOBS = {
+  global:{
+    remote:[
+      {n:"Remote OK",u:"https://remoteok.com/",d:"Remote jobs worldwide"},
+      {n:"We Work Remotely",u:"https://weworkremotely.com/",d:"Remote jobs worldwide"},
+      {n:"Remotive",u:"https://remotive.com/",d:"Remote jobs worldwide"},
+      {n:"LinkedIn Jobs",u:"https://www.linkedin.com/jobs/",d:"Filter by Remote"}],
+    freelance:[
+      {n:"Mostaql — مستقل",u:"https://mostaql.com/",d:"Arabic freelance projects"},
+      {n:"Khamsat — خمسات",u:"https://khamsat.com/",d:"Arabic micro-services"},
+      {n:"Upwork",u:"https://www.upwork.com/",d:"Global freelance"},
+      {n:"Freelancer",u:"https://www.freelancer.com/",d:"Global freelance"}]
+  },
+  PS:{local:[{n:"Jobs.ps",u:"https://www.jobs.ps/",d:"Palestine"},{n:"Bayt — Palestine",u:"https://www.bayt.com/en/palestine/jobs/",d:"Palestine"}]},
+  JO:{local:[{n:"Akhtaboot",u:"https://www.akhtaboot.com/",d:"Jordan"},{n:"Bayt — Jordan",u:"https://www.bayt.com/en/jordan/jobs/",d:"Jordan"}]},
+  SA:{local:[{n:"Jadarat — جدارات",u:"https://jadarat.sa/",d:"Saudi Arabia"},{n:"Bayt — Saudi Arabia",u:"https://www.bayt.com/en/saudi-arabia/jobs/",d:"Saudi Arabia"}]},
+  EG:{local:[{n:"Wuzzuf",u:"https://wuzzuf.net/",d:"Egypt"},{n:"Bayt — Egypt",u:"https://www.bayt.com/en/egypt/jobs/",d:"Egypt"}]},
+  LB:{local:[{n:"Bayt — Lebanon",u:"https://www.bayt.com/en/lebanon/jobs/",d:"Lebanon"}]},
+  IQ:{local:[{n:"Bayt — Iraq",u:"https://www.bayt.com/en/iraq/jobs/",d:"Iraq"}]},
+  AE:{local:[{n:"Bayt — UAE",u:"https://www.bayt.com/en/uae/jobs/",d:"UAE"},{n:"GulfTalent",u:"https://www.gulftalent.com/",d:"Gulf region"}]},
+  QA:{local:[{n:"Bayt — Qatar",u:"https://www.bayt.com/en/qatar/jobs/",d:"Qatar"}]},
+  KW:{local:[{n:"Bayt — Kuwait",u:"https://www.bayt.com/en/kuwait/jobs/",d:"Kuwait"}]},
+  TR:{local:[{n:"Kariyer.net",u:"https://www.kariyer.net/",d:"Türkiye"}]},
+  GB:{local:[{n:"Find a job (GOV.UK)",u:"https://www.gov.uk/find-a-job",d:"United Kingdom"},{n:"Reed",u:"https://www.reed.co.uk/",d:"United Kingdom"}]},
+  FR:{local:[{n:"France Travail",u:"https://www.francetravail.fr/",d:"France"}]},
+  DE:{local:[{n:"Bundesagentur für Arbeit",u:"https://www.arbeitsagentur.de/",d:"Deutschland"}]},
+  US:{local:[{n:"USAJOBS",u:"https://www.usajobs.gov/",d:"US federal jobs"},{n:"Indeed",u:"https://www.indeed.com/",d:"United States"}]},
+  IN:{local:[{n:"Naukri",u:"https://www.naukri.com/",d:"India"}]},
+  PK:{local:[{n:"Rozee.pk",u:"https://www.rozee.pk/",d:"Pakistan"}]},
+  NG:{local:[{n:"Jobberman",u:"https://www.jobberman.com/",d:"Nigeria"}]}
+};
+
+
+/* ================== UI STRINGS (30 languages) ================== */
+const T = {
+ar:{d:"rtl",title:"امتحانات السنوات السابقة من مصادرها الرسمية",sub:"اختر دولتك ثم صفّك، فنوصلك مباشرة إلى المصدر الرسمي للأسئلة.",s1:"اختر الدولة",s2:"اختر المرحلة",s3:"المصادر الرسمية",q:"ابحث عن دولة…",l1:"ابتدائي",l2:"إعدادي / متوسط",l3:"ثانوي",l4:"امتحان الشهادة النهائية",open:"افتح المصدر",back:"رجوع",none:"لم نضف هذه المرحلة بعد، وسنحدّثها قريباً.",note:"هذا الموقع وسيط فقط: لا يملك الأسئلة ولا ينسخها، ويحيلك إلى المواقع الرسمية. قد تتغير الروابط، فتحقّق من الموقع الرسمي.",foot:"آخر تحديث"},
+en:{d:"ltr",title:"Past exam papers, straight from the official sources",sub:"Pick your country and grade and we take you straight to the official source.",s1:"Choose your country",s2:"Choose your level",s3:"Official sources",q:"Search a country…",l1:"Primary",l2:"Middle school",l3:"Secondary",l4:"Final exam",open:"Open source",back:"Back",none:"We haven't added this level yet. Coming soon.",note:"This site is only a guide: it doesn't host or copy exam papers and links to official sites. Links can change, so check the official site.",foot:"Last updated"},
+fr:{d:"ltr",title:"Les anciens sujets d'examen, depuis les sources officielles",sub:"Choisissez votre pays et votre niveau, nous vous menons à la source officielle.",s1:"Choisissez votre pays",s2:"Choisissez votre niveau",s3:"Sources officielles",q:"Rechercher un pays…",l1:"Primaire",l2:"Collège",l3:"Lycée",l4:"Examen final",open:"Ouvrir la source",back:"Retour",none:"Ce niveau n'est pas encore ajouté.",note:"Ce site est un simple guide : il n'héberge ni ne copie les sujets et renvoie vers les sites officiels. Les liens peuvent changer.",foot:"Dernière mise à jour"},
+es:{d:"ltr",title:"Exámenes de años anteriores, desde fuentes oficiales",sub:"Elige tu país y tu nivel y te llevamos a la fuente oficial.",s1:"Elige tu país",s2:"Elige tu nivel",s3:"Fuentes oficiales",q:"Buscar un país…",l1:"Primaria",l2:"Secundaria básica",l3:"Bachillerato",l4:"Examen final",open:"Abrir fuente",back:"Volver",none:"Aún no hemos añadido este nivel.",note:"Este sitio es solo una guía: no aloja ni copia exámenes y enlaza a sitios oficiales. Los enlaces pueden cambiar.",foot:"Última actualización"},
+de:{d:"ltr",title:"Alte Prüfungsaufgaben direkt aus offiziellen Quellen",sub:"Wähle dein Land und deine Stufe – wir führen dich zur offiziellen Quelle.",s1:"Land wählen",s2:"Stufe wählen",s3:"Offizielle Quellen",q:"Land suchen…",l1:"Grundschule",l2:"Mittelstufe",l3:"Oberstufe",l4:"Abschlussprüfung",open:"Quelle öffnen",back:"Zurück",none:"Diese Stufe fehlt noch.",note:"Diese Seite ist nur ein Wegweiser: Sie speichert keine Prüfungen und verlinkt auf offizielle Seiten. Links können sich ändern.",foot:"Zuletzt aktualisiert"},
+tr:{d:"ltr",title:"Geçmiş sınav soruları, resmi kaynaklardan",sub:"Ülkeni ve sınıfını seç, seni resmi kaynağa götürelim.",s1:"Ülkeni seç",s2:"Seviyeni seç",s3:"Resmi kaynaklar",q:"Ülke ara…",l1:"İlkokul",l2:"Ortaokul",l3:"Lise",l4:"Bitirme sınavı",open:"Kaynağı aç",back:"Geri",none:"Bu seviye henüz eklenmedi.",note:"Bu site yalnızca bir rehberdir: soruları barındırmaz, resmi sitelere yönlendirir. Bağlantılar değişebilir.",foot:"Son güncelleme"},
+fa:{d:"rtl",title:"سؤالات امتحانات سال‌های گذشته از منابع رسمی",sub:"کشور و پایه‌ات را انتخاب کن تا به منبع رسمی برسی.",s1:"کشور را انتخاب کنید",s2:"مقطع را انتخاب کنید",s3:"منابع رسمی",q:"جست‌وجوی کشور…",l1:"ابتدایی",l2:"متوسطه اول",l3:"متوسطه دوم",l4:"امتحان پایانی",open:"باز کردن منبع",back:"بازگشت",none:"این مقطع هنوز اضافه نشده است.",note:"این سایت فقط راهنماست: سؤالات را نگه نمی‌دارد و به سایت‌های رسمی پیوند می‌دهد. پیوندها ممکن است تغییر کنند.",foot:"آخرین به‌روزرسانی"},
+ur:{d:"rtl",title:"پچھلے سالوں کے امتحانی پرچے، سرکاری ذرائع سے",sub:"اپنا ملک اور جماعت چنیں، ہم آپ کو سرکاری ذریعے تک پہنچائیں گے۔",s1:"ملک منتخب کریں",s2:"سطح منتخب کریں",s3:"سرکاری ذرائع",q:"ملک تلاش کریں…",l1:"پرائمری",l2:"مڈل",l3:"سیکنڈری",l4:"آخری امتحان",open:"ذریعہ کھولیں",back:"واپس",none:"یہ سطح ابھی شامل نہیں کی گئی۔",note:"یہ سائٹ صرف رہنما ہے: پرچے محفوظ نہیں کرتی اور سرکاری سائٹس کا لنک دیتی ہے۔ لنک بدل سکتے ہیں۔",foot:"آخری اپ ڈیٹ"},
+hi:{d:"ltr",title:"पिछले वर्षों के परीक्षा प्रश्नपत्र, आधिकारिक स्रोतों से",sub:"अपना देश और कक्षा चुनें, हम आपको आधिकारिक स्रोत तक ले जाएँगे।",s1:"अपना देश चुनें",s2:"अपना स्तर चुनें",s3:"आधिकारिक स्रोत",q:"देश खोजें…",l1:"प्राथमिक",l2:"माध्यमिक",l3:"उच्चतर माध्यमिक",l4:"अंतिम परीक्षा",open:"स्रोत खोलें",back:"वापस",none:"यह स्तर अभी जोड़ा नहीं गया है।",note:"यह साइट केवल मार्गदर्शक है: प्रश्नपत्र सहेजती नहीं और आधिकारिक साइटों से जोड़ती है। लिंक बदल सकते हैं।",foot:"अंतिम अपडेट"},
+bn:{d:"ltr",title:"আগের বছরের পরীক্ষার প্রশ্ন, সরকারি উৎস থেকে",sub:"দেশ ও শ্রেণি বেছে নিন, আমরা আপনাকে সরকারি উৎসে নিয়ে যাব।",s1:"দেশ বেছে নিন",s2:"স্তর বেছে নিন",s3:"সরকারি উৎস",q:"দেশ খুঁজুন…",l1:"প্রাথমিক",l2:"নিম্ন মাধ্যমিক",l3:"মাধ্যমিক",l4:"চূড়ান্ত পরীক্ষা",open:"উৎস খুলুন",back:"ফিরে যান",none:"এই স্তর এখনও যোগ করা হয়নি।",note:"এই সাইট শুধু একটি গাইড: প্রশ্ন সংরক্ষণ করে না, সরকারি সাইটের লিঙ্ক দেয়। লিঙ্ক বদলাতে পারে।",foot:"সর্বশেষ আপডেট"},
+id:{d:"ltr",title:"Soal ujian tahun lalu dari sumber resmi",sub:"Pilih negara dan jenjangmu, kami arahkan ke sumber resmi.",s1:"Pilih negara",s2:"Pilih jenjang",s3:"Sumber resmi",q:"Cari negara…",l1:"SD",l2:"SMP",l3:"SMA",l4:"Ujian akhir",open:"Buka sumber",back:"Kembali",none:"Jenjang ini belum ditambahkan.",note:"Situs ini hanya penunjuk: tidak menyimpan soal dan menautkan ke situs resmi. Tautan dapat berubah.",foot:"Pembaruan terakhir"},
+ms:{d:"ltr",title:"Kertas soalan peperiksaan lepas dari sumber rasmi",sub:"Pilih negara dan tahap anda, kami bawa anda ke sumber rasmi.",s1:"Pilih negara",s2:"Pilih tahap",s3:"Sumber rasmi",q:"Cari negara…",l1:"Rendah",l2:"Menengah rendah",l3:"Menengah atas",l4:"Peperiksaan akhir",open:"Buka sumber",back:"Kembali",none:"Tahap ini belum ditambah.",note:"Laman ini hanya panduan: tidak menyimpan soalan dan memaut ke laman rasmi. Pautan boleh berubah.",foot:"Kemas kini terakhir"},
+ru:{d:"ltr",title:"Экзаменационные задания прошлых лет из официальных источников",sub:"Выберите страну и класс — мы проведём вас к официальному источнику.",s1:"Выберите страну",s2:"Выберите уровень",s3:"Официальные источники",q:"Найти страну…",l1:"Начальная школа",l2:"Основная школа",l3:"Старшая школа",l4:"Выпускной экзамен",open:"Открыть источник",back:"Назад",none:"Этот уровень пока не добавлен.",note:"Сайт лишь путеводитель: он не хранит задания и ведёт на официальные сайты. Ссылки могут меняться.",foot:"Последнее обновление"},
+pt:{d:"ltr",title:"Provas de anos anteriores, direto das fontes oficiais",sub:"Escolha seu país e nível e levamos você à fonte oficial.",s1:"Escolha o país",s2:"Escolha o nível",s3:"Fontes oficiais",q:"Buscar país…",l1:"Fundamental I",l2:"Fundamental II",l3:"Ensino médio",l4:"Exame final",open:"Abrir fonte",back:"Voltar",none:"Este nível ainda não foi adicionado.",note:"Este site é apenas um guia: não armazena provas e aponta para sites oficiais. Os links podem mudar.",foot:"Última atualização"},
+it:{d:"ltr",title:"Prove d'esame degli anni passati dalle fonti ufficiali",sub:"Scegli il tuo paese e il livello: ti portiamo alla fonte ufficiale.",s1:"Scegli il paese",s2:"Scegli il livello",s3:"Fonti ufficiali",q:"Cerca un paese…",l1:"Primaria",l2:"Media",l3:"Superiore",l4:"Esame finale",open:"Apri la fonte",back:"Indietro",none:"Questo livello non è ancora stato aggiunto.",note:"Questo sito è solo una guida: non ospita le prove e rimanda ai siti ufficiali. I link possono cambiare.",foot:"Ultimo aggiornamento"},
+nl:{d:"ltr",title:"Oude examenopgaven uit officiële bronnen",sub:"Kies je land en niveau, wij brengen je naar de officiële bron.",s1:"Kies je land",s2:"Kies je niveau",s3:"Officiële bronnen",q:"Zoek een land…",l1:"Basisschool",l2:"Onderbouw",l3:"Bovenbouw",l4:"Eindexamen",open:"Bron openen",back:"Terug",none:"Dit niveau is nog niet toegevoegd.",note:"Deze site is slechts een gids: ze slaat geen examens op en verwijst naar officiële sites. Links kunnen veranderen.",foot:"Laatst bijgewerkt"},
+pl:{d:"ltr",title:"Arkusze egzaminacyjne z poprzednich lat z oficjalnych źródeł",sub:"Wybierz kraj i poziom, a przekierujemy Cię do oficjalnego źródła.",s1:"Wybierz kraj",s2:"Wybierz poziom",s3:"Oficjalne źródła",q:"Szukaj kraju…",l1:"Podstawowa",l2:"Gimnazjum",l3:"Liceum",l4:"Egzamin końcowy",open:"Otwórz źródło",back:"Wstecz",none:"Ten poziom nie został jeszcze dodany.",note:"Ta strona to tylko przewodnik: nie przechowuje arkuszy i odsyła do oficjalnych stron. Linki mogą się zmieniać.",foot:"Ostatnia aktualizacja"},
+uk:{d:"ltr",title:"Екзаменаційні завдання минулих років з офіційних джерел",sub:"Оберіть країну та клас — ми проведемо вас до офіційного джерела.",s1:"Оберіть країну",s2:"Оберіть рівень",s3:"Офіційні джерела",q:"Знайти країну…",l1:"Початкова школа",l2:"Основна школа",l3:"Старша школа",l4:"Випускний іспит",open:"Відкрити джерело",back:"Назад",none:"Цей рівень ще не додано.",note:"Сайт лише путівник: він не зберігає завдання й веде на офіційні сайти. Посилання можуть змінюватися.",foot:"Останнє оновлення"},
+zh:{d:"ltr",title:"历年考试真题，直达官方来源",sub:"选择你的国家和年级，我们带你前往官方来源。",s1:"选择国家",s2:"选择学段",s3:"官方来源",q:"搜索国家…",l1:"小学",l2:"初中",l3:"高中",l4:"毕业考试",open:"打开来源",back:"返回",none:"该学段暂未添加。",note:"本站仅提供指引：不存储试题，只链接到官方网站。链接可能变化，请以官方网站为准。",foot:"最后更新"},
+ja:{d:"ltr",title:"過去の試験問題を公式ソースから",sub:"国と学年を選ぶと、公式ソースにご案内します。",s1:"国を選択",s2:"学校段階を選択",s3:"公式ソース",q:"国を検索…",l1:"小学校",l2:"中学校",l3:"高等学校",l4:"修了試験",open:"ソースを開く",back:"戻る",none:"この段階はまだ追加されていません。",note:"当サイトは案内のみで、問題は保存せず公式サイトへリンクします。リンクは変更される場合があります。",foot:"最終更新"},
+ko:{d:"ltr",title:"기출 시험 문제를 공식 출처에서",sub:"국가와 학년을 선택하면 공식 출처로 안내합니다.",s1:"국가 선택",s2:"학교급 선택",s3:"공식 출처",q:"국가 검색…",l1:"초등",l2:"중등",l3:"고등",l4:"졸업 시험",open:"출처 열기",back:"뒤로",none:"이 학교급은 아직 추가되지 않았습니다.",note:"이 사이트는 안내일 뿐 문제를 저장하지 않으며 공식 사이트로 연결합니다. 링크는 바뀔 수 있습니다.",foot:"마지막 업데이트"},
+vi:{d:"ltr",title:"Đề thi các năm trước từ nguồn chính thức",sub:"Chọn quốc gia và cấp học, chúng tôi dẫn bạn đến nguồn chính thức.",s1:"Chọn quốc gia",s2:"Chọn cấp học",s3:"Nguồn chính thức",q:"Tìm quốc gia…",l1:"Tiểu học",l2:"THCS",l3:"THPT",l4:"Kỳ thi cuối cấp",open:"Mở nguồn",back:"Quay lại",none:"Cấp học này chưa được thêm.",note:"Trang này chỉ là hướng dẫn: không lưu đề thi và liên kết tới trang chính thức. Liên kết có thể thay đổi.",foot:"Cập nhật lần cuối"},
+th:{d:"ltr",title:"ข้อสอบย้อนหลังจากแหล่งทางการ",sub:"เลือกประเทศและระดับชั้น แล้วเราจะพาไปยังแหล่งทางการ",s1:"เลือกประเทศ",s2:"เลือกระดับชั้น",s3:"แหล่งทางการ",q:"ค้นหาประเทศ…",l1:"ประถม",l2:"มัธยมต้น",l3:"มัธยมปลาย",l4:"การสอบปลายทาง",open:"เปิดแหล่งข้อมูล",back:"กลับ",none:"ยังไม่มีระดับชั้นนี้",note:"เว็บไซต์นี้เป็นเพียงตัวนำทาง ไม่เก็บข้อสอบ และลิงก์ไปยังเว็บทางการ ลิงก์อาจเปลี่ยนแปลง",foot:"อัปเดตล่าสุด"},
+sw:{d:"ltr",title:"Mitihani ya miaka iliyopita kutoka vyanzo rasmi",sub:"Chagua nchi na ngazi yako, tutakupeleka kwenye chanzo rasmi.",s1:"Chagua nchi",s2:"Chagua ngazi",s3:"Vyanzo rasmi",q:"Tafuta nchi…",l1:"Msingi",l2:"Sekondari ya chini",l3:"Sekondari ya juu",l4:"Mtihani wa mwisho",open:"Fungua chanzo",back:"Rudi",none:"Ngazi hii bado haijaongezwa.",note:"Tovuti hii ni mwongozo tu: haihifadhi mitihani na inaunganisha kwenye tovuti rasmi. Viungo vinaweza kubadilika.",foot:"Imesasishwa mwisho"},
+el:{d:"ltr",title:"Θέματα εξετάσεων προηγούμενων ετών από επίσημες πηγές",sub:"Διάλεξε χώρα και επίπεδο και σε οδηγούμε στην επίσημη πηγή.",s1:"Επίλεξε χώρα",s2:"Επίλεξε επίπεδο",s3:"Επίσημες πηγές",q:"Αναζήτηση χώρας…",l1:"Δημοτικό",l2:"Γυμνάσιο",l3:"Λύκειο",l4:"Τελικές εξετάσεις",open:"Άνοιγμα πηγής",back:"Πίσω",none:"Αυτό το επίπεδο δεν έχει προστεθεί ακόμη.",note:"Ο ιστότοπος είναι απλώς οδηγός: δεν αποθηκεύει θέματα και παραπέμπει σε επίσημους ιστότοπους. Οι σύνδεσμοι μπορεί να αλλάξουν.",foot:"Τελευταία ενημέρωση"},
+ro:{d:"ltr",title:"Subiecte de examen din anii trecuți, din surse oficiale",sub:"Alege țara și nivelul, iar noi te ducem la sursa oficială.",s1:"Alege țara",s2:"Alege nivelul",s3:"Surse oficiale",q:"Caută o țară…",l1:"Primar",l2:"Gimnazial",l3:"Liceal",l4:"Examen final",open:"Deschide sursa",back:"Înapoi",none:"Acest nivel nu a fost încă adăugat.",note:"Acest site este doar un ghid: nu stochează subiecte și trimite la site-uri oficiale. Linkurile se pot schimba.",foot:"Ultima actualizare"},
+cs:{d:"ltr",title:"Zadání zkoušek z minulých let z oficiálních zdrojů",sub:"Vyberte zemi a stupeň a my vás přivedeme k oficiálnímu zdroji.",s1:"Vyberte zemi",s2:"Vyberte stupeň",s3:"Oficiální zdroje",q:"Hledat zemi…",l1:"Základní škola",l2:"Druhý stupeň",l3:"Střední škola",l4:"Závěrečná zkouška",open:"Otevřít zdroj",back:"Zpět",none:"Tento stupeň zatím nebyl přidán.",note:"Web je jen rozcestník: neukládá zadání a odkazuje na oficiální stránky. Odkazy se mohou měnit.",foot:"Poslední aktualizace"},
+sv:{d:"ltr",title:"Tidigare prov och tentor från officiella källor",sub:"Välj land och nivå så tar vi dig till den officiella källan.",s1:"Välj land",s2:"Välj nivå",s3:"Officiella källor",q:"Sök land…",l1:"Lågstadiet",l2:"Högstadiet",l3:"Gymnasiet",l4:"Slutprov",open:"Öppna källa",back:"Tillbaka",none:"Den här nivån är inte tillagd än.",note:"Sidan är bara en vägvisare: den lagrar inga prov och länkar till officiella sidor. Länkar kan ändras.",foot:"Senast uppdaterad"},
+he:{d:"rtl",title:"שאלוני בחינות משנים קודמות ממקורות רשמיים",sub:"בחרו מדינה וכיתה ונוביל אתכם למקור הרשמי.",s1:"בחירת מדינה",s2:"בחירת שלב",s3:"מקורות רשמיים",q:"חיפוש מדינה…",l1:"יסודי",l2:"חטיבת ביניים",l3:"תיכון",l4:"בחינת גמר",open:"פתיחת המקור",back:"חזרה",none:"שלב זה טרם נוסף.",note:"האתר הוא מדריך בלבד: הוא אינו שומר בחינות ומפנה לאתרים רשמיים. הקישורים עשויים להשתנות.",foot:"עודכן לאחרונה"},
+ta:{d:"ltr",title:"முந்தைய ஆண்டு தேர்வு வினாத்தாள்கள், அதிகாரப்பூர்வ மூலங்களிலிருந்து",sub:"உங்கள் நாடு மற்றும் வகுப்பைத் தேர்ந்தெடுங்கள், அதிகாரப்பூர்வ மூலத்திற்கு அழைத்துச் செல்வோம்.",s1:"நாட்டைத் தேர்ந்தெடுக்கவும்",s2:"நிலையைத் தேர்ந்தெடுக்கவும்",s3:"அதிகாரப்பூர்வ மூலங்கள்",q:"நாட்டைத் தேடுங்கள்…",l1:"தொடக்கநிலை",l2:"நடுநிலை",l3:"மேல்நிலை",l4:"இறுதித் தேர்வு",open:"மூலத்தைத் திற",back:"பின்செல்",none:"இந்த நிலை இன்னும் சேர்க்கப்படவில்லை.",note:"இந்த தளம் வழிகாட்டி மட்டுமே: வினாத்தாள்களைச் சேமிக்காது, அதிகாரப்பூர்வ தளங்களுக்கு இணைக்கும். இணைப்புகள் மாறலாம்.",foot:"கடைசி புதுப்பிப்பு"}
+};
+
+
+/* ================== EXTRA UI STRINGS (ar + en; other languages fall back to English) ================== */
+const N = {
+ar:{hero_t:"تدرّب، ابحث عن وظيفة، وصل إلى المصادر الرسمية",hero_s:"أسئلة مع حلولها للصفوف 1–12، ومواقع توظيف، وروابط رسمية لكل دولة، في مكان واحد.",home:"الرئيسية",nav_q:"الأسئلة",nav_j:"الوظائف",nav_s:"المصادر الرسمية",
+ f_q:"أسئلة وحلول",f_q_d:"اختر المادة والصف، وتدرّب على أسئلة مع حلولها دون مغادرة الموقع.",
+ f_j:"وظائف",f_j_d:"مواقع توظيف محلية وعن بعد وعمل حر حسب دولتك.",
+ f_s:"المصادر الرسمية",f_s_d:"روابط مواقع الوزارات والهيئات الرسمية لكل دولة.",
+ subject:"المادة",grade:"الصف",g:"الصف",math:"رياضيات",arabic:"اللغة العربية",english:"اللغة الإنجليزية",
+ qs:"الأسئلة",imp:"أهم الأسئلة مع حلولها",show:"أظهر الحل",hide:"أخفِ الحل",ans:"الإجابة",sol:"الشرح",
+ papers:"امتحانات السنوات السابقة",count:"سؤال",
+ j_title:"وظائف",j_sub:"اختر دولتك لتجد مواقع التوظيف المناسبة.",j_local:"مواقع التوظيف في بلدك",j_remote:"وظائف عن بعد",j_free:"عمل حر",j_pick:"اختر الدولة",j_none:"لم نضف مواقع محلية لهذه الدولة بعد، لكن مواقع العمل عن بعد والعمل الحر أدناه متاحة للجميع.",
+ open:"فتح",s_title:"المصادر الرسمية",s_sub:"اختر دولتك لتصل إلى مواقع الوزارات والهيئات الرسمية.",
+ note_q:"هذه أسئلة تدريبية كتبناها للموقع، وليست امتحانات رسمية سابقة. للامتحانات الرسمية راجع صفحة المصادر الرسمية.",
+ note_j:"نحن لا نوظّف ولا نضمن أي وظيفة. تحقق من أي إعلان، ولا تدفع مالاً مقابل التقديم لوظيفة.",
+ no_q:"لا توجد أسئلة لهذا الصف بعد.",back:"رجوع"},
+en:{hero_t:"Practise, find a job, reach official sources",hero_s:"Solved questions for grades 1–12, job boards and official links for every country, all in one place.",home:"Home",nav_q:"Questions",nav_j:"Jobs",nav_s:"Official sources",
+ f_q:"Questions & solutions",f_q_d:"Pick a subject and grade and practise with solved questions without leaving the site.",
+ f_j:"Jobs",f_j_d:"Local, remote and freelance job boards for your country.",
+ f_s:"Official sources",f_s_d:"Links to official ministry and exam-board sites for each country.",
+ subject:"Subject",grade:"Grade",g:"Grade",math:"Mathematics",arabic:"Arabic",english:"English",
+ qs:"Questions",imp:"Most important questions with solutions",show:"Show solution",hide:"Hide solution",ans:"Answer",sol:"Explanation",
+ papers:"Past papers by year",count:"questions",
+ j_title:"Jobs",j_sub:"Choose your country to find suitable job boards.",j_local:"Job boards in your country",j_remote:"Remote jobs",j_free:"Freelance",j_pick:"Choose a country",j_none:"We haven't added local boards for this country yet, but the remote and freelance boards below are open to everyone.",
+ open:"Open",s_title:"Official sources",s_sub:"Choose your country to reach official ministry and exam-board sites.",
+ note_q:"These are practice questions written for this site, not official past exams. For official exams see the Official sources page.",
+ note_j:"We do not hire and cannot guarantee any job. Verify every listing and never pay money to apply for a job.",
+ no_q:"No questions for this grade yet.",back:"Back"}
+};
+const tr = k => (N[lang] && N[lang][k] != null) ? N[lang][k] : N.en[k];
+
+/* ================== LOGIC ================== */
+const $ = id => document.getElementById(id);
+let lang = "ar";
+const SUBJECTS = ["math","arabic","english"];
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function pick(x){ return Array.isArray(x) ? (lang==="ar" ? x[0] : x[1]) : x; }
+function isEnItem(it){ return it.lang==="en" || (Array.isArray(it.q) && lang!=="ar"); }
+
+function pickLang(){
+  try{ const s = localStorage.getItem("ea_lang"); if(s && T[s]) return s; }catch(e){}
+  const n = (navigator.language||"en").slice(0,2).toLowerCase();
+  return T[n] ? n : "en";
+}
+function langName(code){ try{ return new Intl.DisplayNames([code],{type:"language"}).of(code); }catch(e){ return code; } }
+function countryName(code){ try{ return new Intl.DisplayNames([lang],{type:"region"}).of(code); }catch(e){ return code; } }
+function fillLangs(){
+  const sel = $("lang");
+  sel.innerHTML = Object.keys(T).map(c=>`<option value="${c}">${langName(c)}</option>`).join("");
+  sel.value = lang;
+  sel.onchange = () => { lang = sel.value; try{localStorage.setItem("ea_lang",lang);}catch(e){} route(); };
+}
+
+/* ---- router ---- */
+function parse(){
+  const h = (location.hash||"#/").replace(/^#\/?/,"");
+  const p = h.split("/").filter(Boolean);
+  return {page:p[0]||"home", a:p[1], b:p[2]};
+}
+function go(path){ location.hash = "#/" + path; }
+
+function drawNav(page){
+  const items = [["home","",tr("home")],["questions","questions",tr("nav_q")],["jobs","jobs",tr("nav_j")],["sources","sources",tr("nav_s")]];
+  $("nav").innerHTML = items.map(([k,p,l])=>`<a href="#/${p}" class="${page===k?'on':''}">${l}</a>`).join("");
+}
+
+function route(){
+  const t = T[lang], r = parse();
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.d;
+  document.title = "ExamAtlas";
+  drawNav(r.page);
+  $("t-foot").textContent = t.foot + ": " + UPDATED;
+  let note = t.note;
+  if(r.page==="questions") note = tr("note_q");
+  if(r.page==="jobs") note = tr("note_j");
+  $("t-note").textContent = note;
+  if(r.page==="questions") pageQuestions(r);
+  else if(r.page==="jobs") pageJobs(r);
+  else if(r.page==="sources") pageSources(r);
+  else pageHome();
+  window.scrollTo({top:0});
+}
+
+/* ---- pages ---- */
+function pageHome(){
+  const t = T[lang];
+  $("app").innerHTML = `
+  <section class="hero"><h1>${esc(tr("hero_t"))}</h1><p>${esc(tr("hero_s"))}</p></section>
+  <div class="feat">
+    <a class="fcard" href="#/questions"><div class="ic">📝</div><b>${esc(tr("f_q"))}</b><span>${esc(tr("f_q_d"))}</span></a>
+    <a class="fcard" href="#/jobs"><div class="ic">💼</div><b>${esc(tr("f_j"))}</b><span>${esc(tr("f_j_d"))}</span></a>
+    <a class="fcard" href="#/sources"><div class="ic">🏛️</div><b>${esc(tr("f_s"))}</b><span>${esc(tr("f_s_d"))}</span></a>
+  </div>`;
+}
+
+function dcls(s,en){ return en ? "en" : (/[؀-ۿ]/.test(s) ? "" : "ltr"); }
+function qCard(it, i, star){
+  const text = pick(it.q), en = isEnItem(it);
+  const sol = pick(it.s);
+  const solEn = Array.isArray(it.s) && lang!=="ar";
+  const ansBlock = `<div class="ans"><div><b>${esc(tr("ans"))}:</b> <bdi class="${dcls(it.a,en)}">${esc(it.a)}</bdi></div>
+     <div class="st"><b>${esc(tr("sol"))}:</b> <bdi class="${dcls(sol,solEn)}">${esc(sol)}</bdi></div></div>`;
+  if(star){
+    return `<div class="q star"><div class="top"><div class="no">★</div><div class="tx ${en?'en':''}">${esc(text)}</div></div>${ansBlock}</div>`;
+  }
+  return `<div class="q"><div class="top"><div class="no">${i}</div><div class="tx ${en?'en':''}">${esc(text)}</div></div>
+    <button class="show" data-open="0">${esc(tr("show"))}</button><div class="hold"></div>
+    <template>${ansBlock}</template></div>`;
+}
+
+function pageQuestions(r){
+  const subj = SUBJECTS.includes(r.a) ? r.a : "math";
+  const grade = Math.min(12, Math.max(1, parseInt(r.b,10) || 1));
+  const items = (QUESTIONS[subj] && QUESTIONS[subj][grade]) || [];
+  const normal = items.filter(x=>!x.imp), star = items.filter(x=>x.imp);
+  const years = (PAPERS[subj] && PAPERS[subj][grade]) || [];
+
+  let html = `<h2 class="sec"><i>1</i>${esc(tr("subject"))}</h2><div class="chips">` +
+    SUBJECTS.map(s=>`<button class="chip ${s===subj?'on':''}" data-s="${s}">${esc(tr(s))}</button>`).join("") + `</div>`;
+  html += `<h2 class="sec"><i>2</i>${esc(tr("grade"))}</h2><div class="chips">` +
+    Array.from({length:12},(_,k)=>k+1).map(g=>`<button class="chip pill ${g===grade?'on':''}" data-g="${g}">${g}</button>`).join("") + `</div>`;
+
+  if(years.length){
+    html += `<h2 class="sec"><i>★</i>${esc(tr("papers"))}</h2><div class="chips" id="years">` +
+      years.map((y,k)=>`<button class="chip ${k===0?'on':''}" data-y="${k}">${y.year}</button>`).join("") + `</div><div class="qbox" id="ybox"></div>`;
+  }
+
+  html += `<h2 class="sec"><i>3</i>${esc(tr("qs"))} · ${esc(tr(subj))} · ${esc(tr("g"))} ${grade}</h2>`;
+  if(!items.length) html += `<div class="empty">${esc(tr("no_q"))}</div>`;
+  else{
+    html += `<div class="qbox">${normal.map((it,i)=>qCard(it,i+1,false)).join("") || ""}</div>`;
+    if(star.length) html += `<h2 class="sec"><i>★</i>${esc(tr("imp"))}</h2><div class="qbox">${star.map(it=>qCard(it,0,true)).join("")}</div>`;
+  }
+  $("app").innerHTML = html;
+
+  $("app").querySelectorAll("[data-s]").forEach(b=> b.onclick = ()=> go(`questions/${b.dataset.s}/${grade}`));
+  $("app").querySelectorAll("[data-g]").forEach(b=> b.onclick = ()=> go(`questions/${subj}/${b.dataset.g}`));
+  $("app").querySelectorAll(".show").forEach(b=> b.onclick = ()=>{
+    const card = b.closest(".q"), hold = card.querySelector(".hold");
+    if(b.dataset.open==="0"){ hold.innerHTML = card.querySelector("template").innerHTML; b.dataset.open="1"; b.textContent = tr("hide"); }
+    else{ hold.innerHTML = ""; b.dataset.open="0"; b.textContent = tr("show"); }
+  });
+  if(years.length){
+    const showYear = k => {
+      $("ybox").innerHTML = years[k].items.map((it,i)=>qCard(it,i+1,false)).join("");
+      $("ybox").querySelectorAll(".show").forEach(b=> b.onclick = ()=>{
+        const card=b.closest(".q"), hold=card.querySelector(".hold");
+        if(b.dataset.open==="0"){hold.innerHTML=card.querySelector("template").innerHTML;b.dataset.open="1";b.textContent=tr("hide");}
+        else{hold.innerHTML="";b.dataset.open="0";b.textContent=tr("show");}
+      });
+    };
+    $("years").querySelectorAll("[data-y]").forEach(b=> b.onclick = ()=>{
+      $("years").querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); b.classList.add("on"); showYear(+b.dataset.y);
+    });
+    showYear(0);
+  }
+}
+
+function enName(c){ try{ return new Intl.DisplayNames(["en"],{type:"region"}).of(c).toLowerCase(); }catch(e){ return c.toLowerCase(); } }
+function countryGrid(list, selected, base){
+  const q = ($("q") && $("q").value || "").trim().toLowerCase();
+  const items = list.map(c=>({c,n:countryName(c)})).filter(x=>!q||x.n.toLowerCase().includes(q)||enName(x.c).includes(q)||x.c.toLowerCase()===q).sort((a,b)=>a.n.localeCompare(b.n,lang));
+  return items.map(x=>`<button class="card ${x.c===selected?'sel':''}" data-c="${x.c}"><div class="f">${COUNTRIES[x.c]?COUNTRIES[x.c].f:'🌍'}</div><div class="nm">${esc(x.n)}</div></button>`).join("") || `<div class="empty">—</div>`;
+}
+function flagOf(c){ return COUNTRIES[c] ? COUNTRIES[c].f : "🌍"; }
+
+function pageSources(r){
+  const list = Object.keys(COUNTRIES);
+  const sel = COUNTRIES[r.a] ? r.a : null;
+  let html = `<h2 class="sec"><i>1</i>${esc(tr("s_title"))}</h2><p class="sub">${esc(tr("s_sub"))}</p>
+    <input class="search" id="q" type="search" autocomplete="off" placeholder="${esc(T[lang].q)}">
+    <div class="grid" id="grid">${countryGrid(list, sel)}</div>`;
+  if(sel){
+    html += `<h2 class="sec"><i>2</i>${flagOf(sel)} ${esc(countryName(sel))}</h2><div class="list">` +
+      COUNTRIES[sel].res.map(x=>`<div class="item"><div><b>${esc(x.n)}</b><small>${esc(countryName(sel))}</small></div>
+        <a class="go" href="${x.u}" target="_blank" rel="noopener noreferrer">${esc(tr("open"))} ↗</a></div>`).join("") + `</div>`;
+  }
+  $("app").innerHTML = html;
+  const wire = () => $("grid").querySelectorAll("[data-c]").forEach(b=> b.onclick = ()=> go("sources/"+b.dataset.c));
+  wire();
+  $("q").oninput = () => { $("grid").innerHTML = countryGrid(list, sel); wire(); };
+}
+
+function jobList(arr){
+  return `<div class="list">` + arr.map(x=>`<div class="item"><div><b>${esc(x.n)}</b><small>${esc(x.d||"")}</small></div>
+    <a class="go" href="${x.u}" target="_blank" rel="noopener noreferrer">${esc(tr("open"))} ↗</a></div>`).join("") + `</div>`;
+}
+function pageJobs(r){
+  const list = Object.keys(COUNTRIES);
+  const sel = COUNTRIES[r.a] ? r.a : null;
+  let html = `<h2 class="sec"><i>1</i>${esc(tr("j_title"))}</h2><p class="sub">${esc(tr("j_sub"))}</p>
+    <input class="search" id="q" type="search" autocomplete="off" placeholder="${esc(T[lang].q)}">
+    <div class="grid" id="grid">${countryGrid(list, sel)}</div>`;
+  if(sel){
+    const local = (JOBS[sel] && JOBS[sel].local) || [];
+    html += `<h2 class="sec"><i>2</i>${flagOf(sel)} ${esc(tr("j_local"))}</h2>` + (local.length ? jobList(local) : `<div class="empty">${esc(tr("j_none"))}</div>`);
+  }
+  html += `<h2 class="sec"><i>🌍</i>${esc(tr("j_remote"))}</h2>${jobList(JOBS.global.remote)}`;
+  html += `<h2 class="sec"><i>✍️</i>${esc(tr("j_free"))}</h2>${jobList(JOBS.global.freelance)}`;
+  $("app").innerHTML = html;
+  const wire = () => $("grid").querySelectorAll("[data-c]").forEach(b=> b.onclick = ()=> go("jobs/"+b.dataset.c));
+  wire();
+  $("q").oninput = () => { $("grid").innerHTML = countryGrid(list, sel); wire(); };
+}
+
+window.addEventListener("hashchange", route);
+lang = pickLang(); fillLangs(); route();
+
+/* Offline support: cache the site shell after the first online visit. */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(err => {
+      console.warn("Offline support could not be registered:", err);
+    });
+  });
+}
+
+
+</script>
+</body>
+</html>
